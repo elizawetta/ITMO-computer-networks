@@ -7,3 +7,5 @@
 
 ## Работы
 [Лабораторная работа 1.  HA Postgres Cluster](https://github.com/elizawetta/ITMO-computer-networks/tree/main/lab1)
+
+[Лабораторная работа 2. Loki + Zabbix + Grafana](https://github.com/elizawetta/ITMO-computer-networks/tree/main/lab2)
