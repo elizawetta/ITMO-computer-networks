@@ -26,12 +26,31 @@
     state: present
     update_cache: yes
 
+- name: Create self-signed certificate
+  command: >
+    openssl req -x509 -nodes -days 365
+    -newkey rsa:2048
+    -keyout /etc/caddy/certs/{{ domain_name }}.key
+    -out /etc/caddy/certs/{{ domain_name }}.crt
+    -subj "/CN={{ domain_name }}"
+  args:
+    creates: /etc/caddy/certs/{{ domain_name }}.crt
+
+- name: Deploy index.html
+  copy:
+    src: index.html
+    dest: /usr/share/caddy/index.html
+    owner: caddy
+    group: caddy
+    mode: '0644'
+
 - name: Deploy Caddy config
   template:
     src: templates/Caddyfile.j2
     dest: /etc/caddy/Caddyfile
 
-- name: Reload Caddy
+- name: Ensure Caddy service is running
   service:
     name: caddy
-    state: reloaded
+    state: restarted
+    enabled: yes

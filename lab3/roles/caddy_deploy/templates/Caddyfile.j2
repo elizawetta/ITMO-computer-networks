@@ -1,9 +1,19 @@
-{{ domain_name }} {
-  root * /usr/share/caddy
-  file_server
-  log {
-    output file {{ log.file }}
-    format json
-    level {{ log.level }}
-  }
+https://nastushka.duckdns.org {
+    root * /usr/share/caddy
+    file_server
+
+    # используем локальный self-signed сертификат
+    tls /etc/caddy/certs/nastushka.crt /etc/caddy/certs/nastushka.key
+
+    log {
+        output file /var/log/caddy_access.log
+        format json
+        level INFO
+    }
+
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        X-XSS-Protection "1; mode=block"
+    }
 }
